@@ -1,28 +1,48 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
 
 class App extends Component {
-  render() {
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      inputValue: '',
+      capricho: []
+    }
+  }
+
+  render () {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+      <div>
+        <header>
+          <h1>
+            whimapp
+          </h1>
           <p>
-            Edit <code>src/App.js</code> and save to reload.
+            Slogan to wuapo
           </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
         </header>
+        <input
+          type='text'
+          value={this.state.inputValue}
+          placeholder='Type your whim'
+          onChange={event => {
+            this.setState({ inputValue: event.target.value })
+          }}
+        />
+        <button
+          onClick={() => {
+            this.setState({
+              inputValue: '',
+              capricho: this.state.capricho.concat(this.state.inputValue)
+            })
+          }}
+        />
+        <p>
+          {JSON.stringify(this.state.capricho)}
+        </p>
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App

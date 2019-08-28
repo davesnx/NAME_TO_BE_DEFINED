@@ -30,8 +30,6 @@ let make = (~navigation) => {
     setLink(_ => "");
     setPrice(_ => "");
 
-    let now = Js.Date.now();
-
     dispatch(
       SaveItem(
         {
@@ -40,7 +38,7 @@ let make = (~navigation) => {
           link,
           price,
           remindIn: date,
-          createdAt: now,
+          createdAt: Js.Date.make(),
           status: Pending,
         }: Item.t,
       ),

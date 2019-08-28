@@ -1,3 +1,5 @@
+open Restorative;
+
 module Item = {
   type status =
     | Pending
@@ -10,7 +12,7 @@ module Item = {
     link: string,
     price: string,
     remindIn: int,
-    createdAt: float,
+    createdAt: Js.Date.t,
     status,
   };
 };
@@ -29,7 +31,9 @@ type action =
   | BuyItem(int)
   | DiscartItem(int);
 
-let now = Js.Date.now();
+let ago30 = Js.Date.makeWithYMD(~year=2019., ~month=08., ~date=23., ());
+let ago20 = Js.Date.makeWithYMD(~year=2019., ~month=08., ~date=23., ());
+let ago10 = Js.Date.makeWithYMD(~year=2019., ~month=08., ~date=23., ());
 
 let initialState = {
   items: [|
@@ -39,7 +43,7 @@ let initialState = {
       link: "https://www.mammothbikes.com/es/p/electronica/potenciometros/pedales/favero-assioma-duo-24723/41011",
       price: "800",
       remindIn: 15,
-      createdAt: now,
+      createdAt: ago30,
       status: Pending,
     },
     {
@@ -48,7 +52,7 @@ let initialState = {
       link: "https://es-eu.wahoofitness.com/devices/bike-trainers/wahoo-kickr-powertrainer",
       price: "1200",
       remindIn: 10,
-      createdAt: now,
+      createdAt: ago30,
       status: Pending,
     },
     {
@@ -56,8 +60,8 @@ let initialState = {
       name: "Nike Zoom Fly",
       link: "http://masses.com.my/sneakers/nike-updates-zoom-fly-react-foam/",
       price: "160",
-      remindIn: 0,
-      createdAt: now,
+      remindIn: 15,
+      createdAt: ago20,
       status: Pending,
     },
     {
@@ -65,8 +69,8 @@ let initialState = {
       name: "Origen by Dan Brown",
       link: "",
       price: "19",
-      remindIn: 15,
-      createdAt: now,
+      remindIn: 35,
+      createdAt: ago10,
       status: Pending,
     },
   |],
@@ -79,24 +83,24 @@ let reducer = (state, action) =>
       ...state,
       items: Array.append(state.items, [|item|]),
     }
-  | BuyItem(selectedIndex) => {
+  | BuyItem(itemIndex) => {
       ...state,
       items:
         Array.mapi(
           (index, item: Item.t) =>
-            index === selectedIndex ? {...item, status: Buyed} : item,
+            index === itemIndex ? {...item, status: Buyed} : item,
           state.items,
         ),
     }
-  | DiscartItem(selectedIndex) => {
+  | DiscartItem(itemIndex) => {
       ...state,
       items:
         Array.mapi(
           (index, item: Item.t) =>
-            index === selectedIndex ? {...item, status: Discarted} : item,
+            index === itemIndex ? {...item, status: Discarted} : item,
           state.items,
         ),
     }
   };
 
-let store = Restorative.createStore(initialState, reducer);
+let store = createStore(initialState, reducer);

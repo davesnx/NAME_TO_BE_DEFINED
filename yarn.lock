@@ -4185,6 +4185,11 @@ readable-stream@^2.0.1, readable-stream@^2.0.6, readable-stream@^2.2.2, readable
     string_decoder "~1.1.1"
     util-deprecate "~1.0.1"
 
+reason-expo@^34.2.0:
+  version "34.2.0"
+  resolved "https://registry.npmjs.org/reason-expo/-/reason-expo-34.2.0.tgz#d0daccc6cc327d02bec7b44364078c79b9085933"
+  integrity sha512-9OKLC+FZ+YBkDWxuqHZx1F2eeoIdCbwjGNtsmp7eC4+gKM8Su8k8vnL273auJVSCd/hHJn6E2Px5Yv5FUhVA7g==
+
 reason-react-native@^0.60.0:
   version "0.60.0"
   resolved "https://registry.npmjs.org/reason-react-native/-/reason-react-native-0.60.0.tgz#7adb9837f28d79d9f1e009b5d01ae864aff15d51"

@@ -2,11 +2,10 @@ open ReactNative;
 open ReactNavigation;
 open State;
 
-/* let fetchFonts = () =>
-    Expo.Font.loadAsync([
-      ("lexend-deca", Packager.require("../assets/fonts/LexendDeca.ttf")),
-    ]);
-   */
+let fetchFonts = () =>
+  Expo.Font.loadAsync([
+    ("lexend-deca", Packager.require("../assets/fonts/LexendDeca.ttf")),
+  ]);
 
 let styles =
   Style.(
@@ -36,9 +35,6 @@ module Nav =
 [@react.component]
 let app = () => {
   let (state, dispatch) = store.useStore();
-
-  let itemToDecide = state.items[state.selectedIndex];
-
   let (isLoading, setIsLoading) = React.useState(() => true);
 
   <Nav />;

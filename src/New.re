@@ -1,4 +1,6 @@
 open ReactNative;
+open ReactNavigation;
+open State;
 
 module Input = {
   [@react.component]
@@ -16,7 +18,8 @@ module SaveButton = {
 };
 
 [@react.component]
-let make = (~onSave) => {
+let make = (~navigation) => {
+  let (_state, dispatch) = store.useStore();
   let (name, setName) = React.useState(() => "");
   let (link, setLink) = React.useState(() => "");
   let (price, setPrice) = React.useState(() => "");
@@ -29,22 +32,26 @@ let make = (~onSave) => {
 
     let now = Js.Date.now();
 
-    onSave(
-      {
-        id: string_of_int(Random.int(String.length(name) * 1000)),
-        name,
-        link,
-        price,
-        remindIn: date,
-        createdAt: now,
-        status: Pending,
-      }: Model.Item.t,
+    dispatch(
+      SaveItem(
+        {
+          id: string_of_int(Random.int(String.length(name) * 1000)),
+          name,
+          link,
+          price,
+          remindIn: date,
+          createdAt: now,
+          status: Pending,
+        }: Item.t,
+      ),
     );
+
+    navigation->Navigation.navigate("List");
   };
+
   let disabled = name === "";
 
   <View>
-    <Button onPress=Js.log title="<-" />
     <Input
       value=name
       label="What you want to buy"

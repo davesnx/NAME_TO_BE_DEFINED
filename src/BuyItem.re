@@ -1,9 +1,11 @@
+open ReactNative;
+
 [@react.component]
-let make = (~item: Model.Item.t, ~onAccept, ~onReject) =>
-  <div>
-    <h1> {ReasonReact.string(item.name)} </h1>
-    <div>
-      <button onClick=onAccept> {ReasonReact.string("Accept")} </button>
-      <button onClick=onReject> {ReasonReact.string("Reject")} </button>
-    </div>
-  </div>;
+let make = (~item: State.Item.t, ~onAccept, ~onReject) =>
+  <View>
+    <Text> {ReasonReact.string(item.name)} </Text>
+    <View>
+      <Button onPress=onAccept title="Accept" />
+      <Button onPress=onReject title="Reject" />
+    </View>
+  </View>;

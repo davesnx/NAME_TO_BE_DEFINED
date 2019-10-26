@@ -21,9 +21,14 @@ module Items = {
   type t = array(Item.t);
 };
 
+module Settings = {
+  type t = {currency: [ | `D | `E]};
+};
+
 type t = {
   items: Items.t,
   selectedIndex: int,
+  settings: Settings.t,
 };
 
 type action =
@@ -36,6 +41,9 @@ let ago20 = Js.Date.makeWithYMD(~year=2019., ~month=08., ~date=23., ());
 let ago10 = Js.Date.makeWithYMD(~year=2019., ~month=08., ~date=23., ());
 
 let initialState = {
+  settings: {
+    currency: `D,
+  },
   items: [|
     {
       id: "1337",

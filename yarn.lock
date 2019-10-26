@@ -4197,7 +4197,7 @@ reason-react-native@^0.60.0:
 
 reason-react-navigation@^3.11.0-alpha.0:
   version "3.11.0-alpha.0"
-  resolved "https://registry.npmjs.org/reason-react-navigation/-/reason-react-navigation-3.11.0-alpha.0.tgz#4333c0cc1f42490e968a6d80b260a21aff360e73"
+  resolved "https://registry.yarnpkg.com/reason-react-navigation/-/reason-react-navigation-3.11.0-alpha.0.tgz#4333c0cc1f42490e968a6d80b260a21aff360e73"
   integrity sha512-o07BjQ2BvUe9NqwUWnclZfIGBrWb3+AUQKw5d0475zEZXOE8Y57k7BY51iHvr1czvTeh8B8Zk01xxI5ZCvHZAA==
 
 reason-react@^0.7.0:

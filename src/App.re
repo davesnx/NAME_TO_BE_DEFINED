@@ -20,7 +20,7 @@ let styles =
 
 module Nav =
   AppContainer.Make({
-    type screenProps = {. someProp: int};
+    type screenProps = {.};
 
     let navigator =
       StackNavigator.make({

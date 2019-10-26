@@ -4,11 +4,8 @@ open State;
 
 module Input = {
   [@react.component]
-  let make = (~label, ~placeholder, ~value, ~onChangeText) =>
-    <View>
-      <Text> {ReasonReact.string(label)} </Text>
-      <TextInput placeholder value onChangeText />
-    </View>;
+  let make = (~placeholder, ~value, ~onChangeText) =>
+    <View> <TextInput placeholder value onChangeText /> </View>;
 };
 
 module SaveButton = {
@@ -50,18 +47,12 @@ let make = (~navigation) => {
   let disabled = name === "";
 
   <View>
-    <Input
-      value=name
-      label="What you want to buy"
-      placeholder="Name"
-      onChangeText={value => setName(_ => value)}
-    />
-    <Input
-      value=link
-      label="link"
-      placeholder="https://website.buy"
-      onChangeText={value => setLink(_ => value)}
-    />
+          <Input
+            value=name
+            placeholder="What you would like to buy"
+            onChangeText={value => setName(_ => value)}
+          />
+        </View> /*
     <Input
       value=price
       label="price"
@@ -76,5 +67,5 @@ let make = (~navigation) => {
     />
     <Text> {ReasonReact.string("days")} </Text>
     <SaveButton disabled onClick=clickHandler />
-  </View>;
+  */;
 };

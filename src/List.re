@@ -1,6 +1,7 @@
 open ReactNative;
 open ReactNavigation;
 open State;
+open UI;
 
 let s = React.string;
 
@@ -16,7 +17,10 @@ let styles =
           ~alignItems=`center,
           (),
         ),
-      "list": style(~padding=20.->dp, ~width=100.->pct, ()),
+      "list": style(~width=100.->pct, ~paddingBottom=40.->dp, ()),
+      "scroll": style(~padding=20.->dp, ~width=100.->pct, ()),
+      "floating":
+        style(~position=`absolute, ~bottom=50.->dp, ~right=25.->dp, ()),
     })
   );
 
@@ -27,19 +31,37 @@ module Empty = {
 };
 
 module Header = {
+  let styles =
+    Style.(
+      StyleSheet.create({
+        "header":
+          viewStyle(
+            ~justifyContent=`center,
+            ~alignItems=`flexStart,
+            ~width=100.->pct,
+            (),
+          ),
+        "title": style(~padding=20.->dp, ()),
+      })
+    );
+
   [@react.component]
   let make = (~numberOfItems) =>
-    <View>
-      <Text> {s("Good morning!")} </Text>
-      <Text>
-        {
-          switch (numberOfItems) {
-          | 0 => s("There are not whims created, yet!")
-          | _ =>
-            s("You have " ++ string_of_int(numberOfItems) ++ " whims added")
+    <View style=styles##header>
+      <Spacer top=2 bottom=2>
+        <Text style=Theme.Typo.h3> {s("Good morning!")} </Text>
+        <Text style=Theme.Typo.di>
+          {
+            switch (numberOfItems) {
+            | 0 => s("There are not whims created, yet!")
+            | _ =>
+              s(
+                "You have " ++ string_of_int(numberOfItems) ++ " whims added",
+              )
+            }
           }
-        }
-      </Text>
+        </Text>
+      </Spacer>
     </View>;
 };
 
@@ -66,8 +88,6 @@ module Item = {
           ),
         "title":
           viewStyle(
-            ~marginTop=20.->dp,
-            ~marginBottom=10.->dp,
             ~width=100.->pct,
             ~flex=1.,
             ~justifyContent=`center,
@@ -98,7 +118,6 @@ module Item = {
             ~flex=1.,
             ~justifyContent=`center,
             ~alignItems=`center,
-            ~paddingVertical=24.->dp,
             (),
           ),
         "name": style(~textAlign=`left, ()),
@@ -107,24 +126,27 @@ module Item = {
 
   [@react.component]
   let make = (~name, ~status: Item.status, ~price, ~currency, ~remindIn) =>
-    <TouchableOpacity style=styles##item>
-      <View style=styles##image />
-      <View style=styles##title>
-        <Text style=styles##itemName> {s(name)} </Text>
-        <View style=styles##subtitle>
-          <Text style=Theme.Typo.h2>
-            {
-              switch (currency) {
-              | `D => s("$" ++ price)
-              | `E => s(price ++ "€")
+    <Spacer top=2 bottom=2>
+      <TouchableOpacity style=styles##item>
+        <View style=styles##image />
+        <Spacer top=2 />
+        <View style=styles##title>
+          <Text style=styles##itemName> {s(name)} </Text>
+          <View style=styles##subtitle>
+            <Text style=Theme.Typo.h2>
+              {
+                switch (currency) {
+                | `D => s("$" ++ price)
+                | `E => s(price ++ "€")
+                }
               }
-            }
-          </Text>
-          <View style=styles##separator />
-          <Text style=Theme.Typo.di> {s(remindIn ++ " days left")} </Text>
+            </Text>
+            <View style=styles##separator />
+            <Text style=Theme.Typo.di> {s(remindIn ++ " days left")} </Text>
+          </View>
         </View>
-      </View>
-    </TouchableOpacity>;
+      </TouchableOpacity>
+    </Spacer>;
 };
 
 [@react.component]
@@ -132,53 +154,57 @@ let make = (~navigation) => {
   let (state, _dispatch) = store.useStore();
   let itemCount = Belt.Array.length(state.items);
 
-  <SafeAreaView style=styles##screen>
-    <Header numberOfItems=itemCount />
-    {
-      switch (Belt.Array.length(state.items)) {
-      | 0 => <Empty />
-      | _ =>
-        <FlatList
-          style=styles##list
-          data={state.items}
-          keyExtractor=(({id}, _) => id)
-          renderItem=(
-            props => {
-              let item = props##item;
+  <View style=styles##screen>
+    <ScrollView style=styles##scroll>
+      <Header numberOfItems=itemCount />
+      {
+        switch (Belt.Array.length(state.items)) {
+        | 0 => <Empty />
+        | _ =>
+          <FlatList
+            style=styles##list
+            data={state.items}
+            keyExtractor=(({id}, _) => id)
+            renderItem=(
+              props => {
+                let item = props##item;
 
-              /*
-                 We loop to all the items and trigger them to be selected
-                  - If the user didn't respond to the notification.
-                  - If the user have more than one selected.
+                /*
+                   We loop to all the items and trigger them to be selected
+                    - If the user didn't respond to the notification.
+                    - If the user have more than one selected.
 
-                 let daysPassed = diffInDays(Js.Date.make(), item.createdAt);
+                   let daysPassed = diffInDays(Js.Date.make(), item.createdAt);
 
-                 if (daysPassed === item.remindIn) {
-                   dispath(SelectItem(item.id))
-                 }
-               */
+                   if (daysPassed === item.remindIn) {
+                     dispath(SelectItem(item.id))
+                   }
+                 */
 
-              <Item
-                name={item.name}
-                price={item.price}
-                /* remindDate={Js.Date.toLocaleDateString(remindDate)} */
-                remindIn={string_of_int(item.remindIn)}
-                status={item.status}
-                currency={state.settings.currency}
-                /* onPress={
-                     /* _ =>
-                        navigation
-                        ->Navigation.navigateWithParams("Item", {"item": props##item}) */
-                   } */
-              />;
-            }
-          )
-        />
+                <Item
+                  name={item.name}
+                  price={item.price}
+                  /* remindDate={Js.Date.toLocaleDateString(remindDate)} */
+                  remindIn={string_of_int(item.remindIn)}
+                  status={item.status}
+                  currency={state.settings.currency}
+                  /* onPress={
+                       /* _ =>
+                          navigation
+                          ->Navigation.navigateWithParams("Item", {"item": props##item}) */
+                     } */
+                />;
+              }
+            )
+          />
+        }
       }
-    }
-    <Button
-      title="New +"
-      onPress={_ => navigation->Navigation.navigate("New")}
-    />
-  </SafeAreaView>;
+    </ScrollView>
+    <View style=styles##floating>
+      <FloatingButton
+        title="+"
+        onPress={_ => navigation->Navigation.navigate("New")}
+      />
+    </View>
+  </View>;
 };

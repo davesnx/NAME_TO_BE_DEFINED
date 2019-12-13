@@ -13,10 +13,38 @@ module Color = {
 };
 
 module Typo = {
-  let h1 = textStyle(~fontSize=56., ~lineHeight=56., ~fontWeight=`bold, ());
-  let h2 = textStyle(~fontSize=24., ~lineHeight=24., ~fontWeight=`bold, ());
-  let h3 = textStyle(~fontSize=24., ~lineHeight=24., ~fontWeight=`_600, ());
-  let h4 = textStyle(~fontSize=20., ~lineHeight=20., ~fontWeight=`bold, ());
+  let h1 =
+    textStyle(
+      ~fontSize=56.,
+      ~lineHeight=56.,
+      ~fontWeight=`bold,
+      ~color=Color.darkblue,
+      (),
+    );
+  let h2 =
+    textStyle(
+      ~fontSize=24.,
+      ~lineHeight=24.,
+      ~fontWeight=`bold,
+      ~color=Color.darkblue,
+      (),
+    );
+  let h3 =
+    textStyle(
+      ~fontSize=24.,
+      ~lineHeight=24.,
+      ~fontWeight=`_600,
+      ~color=Color.darkblue,
+      (),
+    );
+  let h4 =
+    textStyle(
+      ~fontSize=20.,
+      ~lineHeight=20.,
+      ~fontWeight=`bold,
+      ~color=Color.darkblue,
+      (),
+    );
   let bo =
     textStyle(
       ~fontSize=17.,
@@ -25,5 +53,12 @@ module Typo = {
       ~color=Color.darkblue,
       (),
     );
-  let di = textStyle(~fontSize=16., ~lineHeight=16., ~fontWeight=`_400, ());
+  let di =
+    textStyle(
+      ~fontSize=16.,
+      ~lineHeight=16.,
+      ~fontWeight=`_400,
+      ~color=Color.darkblue,
+      (),
+    );
 };

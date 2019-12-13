@@ -125,9 +125,10 @@ module Item = {
     );
 
   [@react.component]
-  let make = (~name, ~status: Item.status, ~price, ~currency, ~remindIn) =>
+  let make =
+      (~name, ~status: Item.status, ~price, ~currency, ~remindIn, ~onPress) =>
     <Spacer top=2 bottom=2>
-      <TouchableOpacity style=styles##item>
+      <TouchableOpacity style=styles##item onPress>
         <View style=styles##image />
         <Spacer top=2 />
         <View style=styles##title>
@@ -188,11 +189,14 @@ let make = (~navigation) => {
                   remindIn={string_of_int(item.remindIn)}
                   status={item.status}
                   currency={state.settings.currency}
-                  /* onPress={
-                       /* _ =>
-                          navigation
-                          ->Navigation.navigateWithParams("Item", {"item": props##item}) */
-                     } */
+                  onPress={
+                    _ =>
+                      navigation
+                      ->Navigation.navigateWithParams(
+                          "Item",
+                          {"item": props##item},
+                        )
+                  }
                 />;
               }
             )
